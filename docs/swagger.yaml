@@ -1,0 +1,672 @@
+definitions:
+  dependencies_libs_tools_response.ResponseMessage:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        example: Internal Server Error
+        type: string
+      messageCode:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.AutomationItemStatus:
+    properties:
+      editedBy:
+        type: string
+      editedQuantity:
+        type: number
+      editedReason:
+        type: string
+      isReview:
+        type: boolean
+      replenishmentItem:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ReplenishmentItem'
+      reviewStatus:
+        type: string
+      suggestedQuantity:
+        type: number
+      supplierTotalQuantity:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.SupplierTotalQuantity'
+      syncedStatus:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.AutomationStatus:
+    properties:
+      completeStatus:
+        type: string
+      isAutomation:
+        type: boolean
+      orderDate:
+        type: string
+      replenishmentSupplier:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ReplenishmentSupplier'
+      reviewStatus:
+        type: string
+      sequence:
+        type: integer
+      showReOrder:
+        type: boolean
+      syncedStatus:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDTO:
+    properties:
+      currentServerTime:
+        type: string
+      needReorder:
+        type: boolean
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      paginated:
+        type: boolean
+      records:
+        items:
+          $ref: '#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderForCreate'
+        type: array
+      totalFailed:
+        type: integer
+      totalItems:
+        type: integer
+      totalOrdered:
+        type: integer
+      totalPage:
+        type: integer
+      totalPending:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDetailDTO:
+    properties:
+      currentServerTime:
+        type: string
+      record:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderForCreate'
+    type: object
+  dependencies_services_procurement_core_domain_model.Dc:
+    properties:
+      code:
+        type: string
+      en:
+        type: string
+      id:
+        type: integer
+      th:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.FreshketDc:
+    properties:
+      dc:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.Dc'
+      endReceiveTime:
+        type: integer
+      leadTime:
+        type: integer
+      startReceiveTime:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.ReplenishmentItem:
+    properties:
+      actualStock:
+        type: number
+      itemId:
+        type: integer
+      preOrder:
+        type: number
+      runRate:
+        type: number
+      shelfLife:
+        type: number
+      stockCvd:
+        type: number
+      supplierId:
+        type: integer
+      warehouse:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.ReplenishmentSupplier:
+    properties:
+      cutOffTime:
+        type: integer
+      freshketDc:
+        items:
+          $ref: '#/definitions/dependencies_services_procurement_core_domain_model.FreshketDc'
+        type: array
+      supplierId:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.SupplierOrderDetailLegacy:
+    properties:
+      createBy:
+        type: integer
+      createDate:
+        type: string
+      fkRemark:
+        type: string
+      isConfirmReceive:
+        type: boolean
+      opsShiftNo:
+        type: string
+      poGrandTotal:
+        type: number
+      poId:
+        type: integer
+      poIsVat:
+        type: boolean
+      poIssueTo:
+        type: integer
+      poReason:
+        type: string
+      poReceivingDate:
+        type: string
+      poRemark:
+        type: string
+      poResStatusId:
+        type: integer
+      poShippingCost:
+        type: number
+      poSupStatusId:
+        type: integer
+      poTimeSlot:
+        type: number
+      poTimeSlotTo:
+        type: number
+      poTotal:
+        type: number
+      poVat:
+        type: number
+      refPoId:
+        type: string
+      remarkFromWh:
+        type: string
+      resAddressId:
+        type: integer
+      runningId:
+        type: integer
+      sources:
+        type: string
+      supAddressId:
+        type: integer
+      updateBy:
+        type: integer
+      updateDate:
+        type: string
+      uploadedBy:
+        type: string
+      warehouseId:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.SupplierOrderForCreate:
+    properties:
+      _id:
+        type: string
+      automationStatus:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.AutomationStatus'
+      supplierId:
+        type: integer
+      supplierName:
+        type: string
+      supplierOrderDetail:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderDetailLegacy'
+      supplierOrderItems:
+        items:
+          $ref: '#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderItemLegacy'
+        type: array
+      token:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.SupplierOrderItemLegacy:
+    properties:
+      automationItemStatus:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.AutomationItemStatus'
+      createBy:
+        type: integer
+      createDate:
+        type: string
+      isChill:
+        type: boolean
+      isFrozen:
+        type: boolean
+      itemId:
+        type: integer
+      itemIsVat:
+        type: boolean
+      itemName:
+        type: string
+      itemNameId:
+        type: integer
+      itemPrice:
+        type: number
+      itemPriceExpDate:
+        type: string
+      itemPriceSupplier:
+        type: number
+      itemUnitId:
+        type: integer
+      itemUniversalUnitId:
+        type: integer
+      itemUniversalValue:
+        type: number
+      newPriceIncVat:
+        type: number
+      oldPriceIncVat:
+        type: number
+      packSize:
+        type: string
+      poId:
+        type: integer
+      poItemNewPrice:
+        type: number
+      poItemNewQty:
+        type: number
+      poItemOldPrice:
+        type: number
+      poItemOldQty:
+        type: number
+      poItemPriceExpDate:
+        type: string
+      updateBy:
+        type: integer
+      updateDate:
+        type: string
+    type: object
+  dependencies_services_procurement_core_domain_model.SupplierTotalQuantity:
+    properties:
+      itemId:
+        type: integer
+      quantity:
+        type: number
+      supplierId:
+        type: integer
+    type: object
+  dependencies_services_procurement_core_domain_model.ValidateMessage:
+    properties:
+      isError:
+        type: boolean
+      message:
+        type: string
+      value: {}
+    type: object
+  dependencies_services_procurement_core_domain_model.ValidateResponse:
+    properties:
+      id:
+        example: 12345678-1234-1234-1234-012345678902
+        type: string
+      itemId:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      poSequence:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      quantity:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      receivingDate:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      remark:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      supplierId:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      timeSlot:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+      warehouse:
+        $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage'
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateAllHandler:
+    properties:
+      date:
+        example: "2023-11-11 17:00:00"
+        type: string
+    required:
+    - date
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateHandler:
+    properties:
+      draftPoDetails:
+        items:
+          $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.DraftPoDetail'
+        type: array
+    required:
+    - draftPoDetails
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.BulkSupplierOrder:
+    properties:
+      itemId:
+        example: 33401
+        type: integer
+      poSequence:
+        example: 1
+        type: integer
+      quantity:
+        example: 100.77
+        type: number
+      receivingDate:
+        example: "2023-11-11"
+        type: string
+      remark:
+        example: I am remark
+        type: string
+      supplierId:
+        example: 443
+        type: integer
+      timeSlot:
+        example: 16
+        type: number
+      warehouse:
+        example: LKB
+        type: string
+    required:
+    - itemId
+    - poSequence
+    - quantity
+    - receivingDate
+    - supplierId
+    - timeSlot
+    - warehouse
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.BulkValidateSupplierOrder:
+    properties:
+      itemId: {}
+      poSequence: {}
+      quantity: {}
+      receivingDate: {}
+      remark:
+        example: I am remark
+        type: string
+      supplierId: {}
+      timeSlot: {}
+      warehouse: {}
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.DraftPoDetail:
+    properties:
+      id:
+        example: 98590430258da8f0250497960d9c90de
+        type: string
+    required:
+    - id
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.ItemReviewHandler:
+    properties:
+      editedQuantity:
+        example: 100.77
+        type: number
+      editedReason:
+        example: I am reason
+        type: string
+      itemId:
+        example: 33401
+        type: integer
+    required:
+    - editedQuantity
+    - itemId
+    type: object
+  services_procurement_core_app_handler_supplier_order_handler.ReviewSupplierOrderHandler:
+    properties:
+      _id:
+        example: 98590430258da8f0250497960d9c90de
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.ItemReviewHandler'
+        type: array
+    required:
+    - _id
+    - items
+    type: object
+info:
+  contact:
+    email: contact@freshket.co
+    name: บริษัท โพ​ลาร์​ แบร์ ​มิ​ชชั่น ​จำกัด
+    url: https://www.freshket.co/
+  description: Freshket SCN services API document
+paths:
+  /procurements/pos/automation:
+    get:
+      consumes:
+      - application/json
+      description: Get automation supplier order
+      parameters:
+      - description: createDateFrom
+        in: query
+        name: createDateFrom
+        type: string
+      - description: createDateTo
+        in: query
+        name: createDateTo
+        type: string
+      - description: uploadedBy
+        in: query
+        name: uploadedBy
+        type: string
+      - description: completeStatus
+        in: query
+        name: completeStatus
+        type: string
+      - description: reviewStatus
+        in: query
+        name: reviewStatus
+        type: string
+      - description: paginated
+        in: query
+        name: paginated
+        type: string
+      - description: supplier
+        in: query
+        name: supplier
+        type: string
+      - description: warehouseId
+        in: query
+        name: warehouseId
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: pageSize
+        in: query
+        name: pageSize
+        type: integer
+      - description: orderType
+        in: query
+        name: orderType
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Get automation supplier order
+      tags:
+      - Procurement
+    put:
+      consumes:
+      - application/json
+      description: Review automation supplier order
+      parameters:
+      - description: payload
+        in: body
+        name: ReviewSupplierOrderHandler
+        required: true
+        schema:
+          $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.ReviewSupplierOrderHandler'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Review automation supplier order
+      tags:
+      - Procurement
+  /procurements/pos/automation/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get automation supplier order detail
+      parameters:
+      - description: Document ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDetailDTO'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Get automation supplier order detail
+      tags:
+      - Procurement
+  /procurements/pos/automation/recreate:
+    post:
+      consumes:
+      - application/json
+      description: Recreate automation supplier order
+      parameters:
+      - description: payload
+        in: body
+        name: AutomationReCreateHandler
+        required: true
+        schema:
+          $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateHandler'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Recreate automation supplier order
+      tags:
+      - Procurement
+  /procurements/pos/automation/recreate/all:
+    post:
+      consumes:
+      - application/json
+      description: Recreate automation supplier order all
+      parameters:
+      - description: payload
+        in: body
+        name: AutomationReCreateAllHandler
+        required: true
+        schema:
+          $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateAllHandler'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Recreate automation supplier order all
+      tags:
+      - Procurement
+  /procurements/pos/bulk:
+    post:
+      consumes:
+      - application/json
+      description: Bulk create supplier order
+      parameters:
+      - description: csv data
+        in: body
+        name: '[]BulkSupplierOrder'
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.BulkSupplierOrder'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+      security:
+      - Authorization: []
+      summary: Bulk create supplier order
+      tags:
+      - Procurement
+  /procurements/pos/bulk/validation:
+    post:
+      consumes:
+      - application/json
+      description: Validate bulk order supplier
+      parameters:
+      - description: Bulk Supplier Order
+        in: body
+        name: request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/services_procurement_core_app_handler_supplier_order_handler.BulkValidateSupplierOrder'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/dependencies_libs_tools_response.ResponseMessage'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dependencies_services_procurement_core_domain_model.ValidateResponse'
+                  type: array
+              type: object
+      security:
+      - Authorization: []
+      - x-api-key: []
+      summary: Validate bulk order supplier
+      tags:
+      - Procurement
+securityDefinitions:
+  Authorization:
+    description: The token generated from Auth0
+    in: header
+    name: Authorization
+    type: apiKey
+  x-api-key:
+    description: The internal api key
+    in: header
+    name: x-api-key
+    type: apiKey
+swagger: "2.0"

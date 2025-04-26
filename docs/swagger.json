@@ -1,0 +1,1027 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Freshket SCN services API document",
+        "contact": {
+            "name": "บริษัท โพ​ลาร์​ แบร์ ​มิ​ชชั่น ​จำกัด",
+            "url": "https://www.freshket.co/",
+            "email": "contact@freshket.co"
+        }
+    },
+    "paths": {
+        "/procurements/pos/automation": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Get automation supplier order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Get automation supplier order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "createDateFrom",
+                        "name": "createDateFrom",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "createDateTo",
+                        "name": "createDateTo",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "uploadedBy",
+                        "name": "uploadedBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "completeStatus",
+                        "name": "completeStatus",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "reviewStatus",
+                        "name": "reviewStatus",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "paginated",
+                        "name": "paginated",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "supplier",
+                        "name": "supplier",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "warehouseId",
+                        "name": "warehouseId",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pageSize",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "orderType",
+                        "name": "orderType",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Review automation supplier order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Review automation supplier order",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "ReviewSupplierOrderHandler",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.ReviewSupplierOrderHandler"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/procurements/pos/automation/recreate": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Recreate automation supplier order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Recreate automation supplier order",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "AutomationReCreateHandler",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateHandler"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/procurements/pos/automation/recreate/all": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Recreate automation supplier order all",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Recreate automation supplier order all",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "AutomationReCreateAllHandler",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateAllHandler"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/procurements/pos/automation/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Get automation supplier order detail",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Get automation supplier order detail",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Document ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDetailDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/procurements/pos/bulk": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Bulk create supplier order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Bulk create supplier order",
+                "parameters": [
+                    {
+                        "description": "csv data",
+                        "name": "[]BulkSupplierOrder",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.BulkSupplierOrder"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/procurements/pos/bulk/validation": {
+            "post": {
+                "security": [
+                    {
+                        "Authorization": []
+                    },
+                    {
+                        "x-api-key": []
+                    }
+                ],
+                "description": "Validate bulk order supplier",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Procurement"
+                ],
+                "summary": "Validate bulk order supplier",
+                "parameters": [
+                    {
+                        "description": "Bulk Supplier Order",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.BulkValidateSupplierOrder"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/dependencies_libs_tools_response.ResponseMessage"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dependencies_libs_tools_response.ResponseMessage": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "Internal Server Error"
+                },
+                "messageCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.AutomationItemStatus": {
+            "type": "object",
+            "properties": {
+                "editedBy": {
+                    "type": "string"
+                },
+                "editedQuantity": {
+                    "type": "number"
+                },
+                "editedReason": {
+                    "type": "string"
+                },
+                "isReview": {
+                    "type": "boolean"
+                },
+                "replenishmentItem": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ReplenishmentItem"
+                },
+                "reviewStatus": {
+                    "type": "string"
+                },
+                "suggestedQuantity": {
+                    "type": "number"
+                },
+                "supplierTotalQuantity": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.SupplierTotalQuantity"
+                },
+                "syncedStatus": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.AutomationStatus": {
+            "type": "object",
+            "properties": {
+                "completeStatus": {
+                    "type": "string"
+                },
+                "isAutomation": {
+                    "type": "boolean"
+                },
+                "orderDate": {
+                    "type": "string"
+                },
+                "replenishmentSupplier": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ReplenishmentSupplier"
+                },
+                "reviewStatus": {
+                    "type": "string"
+                },
+                "sequence": {
+                    "type": "integer"
+                },
+                "showReOrder": {
+                    "type": "boolean"
+                },
+                "syncedStatus": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDTO": {
+            "type": "object",
+            "properties": {
+                "currentServerTime": {
+                    "type": "string"
+                },
+                "needReorder": {
+                    "type": "boolean"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "paginated": {
+                    "type": "boolean"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderForCreate"
+                    }
+                },
+                "totalFailed": {
+                    "type": "integer"
+                },
+                "totalItems": {
+                    "type": "integer"
+                },
+                "totalOrdered": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                },
+                "totalPending": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.AutomationSupplierOrderDetailDTO": {
+            "type": "object",
+            "properties": {
+                "currentServerTime": {
+                    "type": "string"
+                },
+                "record": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderForCreate"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.Dc": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "en": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "th": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.FreshketDc": {
+            "type": "object",
+            "properties": {
+                "dc": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.Dc"
+                },
+                "endReceiveTime": {
+                    "type": "integer"
+                },
+                "leadTime": {
+                    "type": "integer"
+                },
+                "startReceiveTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.ReplenishmentItem": {
+            "type": "object",
+            "properties": {
+                "actualStock": {
+                    "type": "number"
+                },
+                "itemId": {
+                    "type": "integer"
+                },
+                "preOrder": {
+                    "type": "number"
+                },
+                "runRate": {
+                    "type": "number"
+                },
+                "shelfLife": {
+                    "type": "number"
+                },
+                "stockCvd": {
+                    "type": "number"
+                },
+                "supplierId": {
+                    "type": "integer"
+                },
+                "warehouse": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.ReplenishmentSupplier": {
+            "type": "object",
+            "properties": {
+                "cutOffTime": {
+                    "type": "integer"
+                },
+                "freshketDc": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.FreshketDc"
+                    }
+                },
+                "supplierId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.SupplierOrderDetailLegacy": {
+            "type": "object",
+            "properties": {
+                "createBy": {
+                    "type": "integer"
+                },
+                "createDate": {
+                    "type": "string"
+                },
+                "fkRemark": {
+                    "type": "string"
+                },
+                "isConfirmReceive": {
+                    "type": "boolean"
+                },
+                "opsShiftNo": {
+                    "type": "string"
+                },
+                "poGrandTotal": {
+                    "type": "number"
+                },
+                "poId": {
+                    "type": "integer"
+                },
+                "poIsVat": {
+                    "type": "boolean"
+                },
+                "poIssueTo": {
+                    "type": "integer"
+                },
+                "poReason": {
+                    "type": "string"
+                },
+                "poReceivingDate": {
+                    "type": "string"
+                },
+                "poRemark": {
+                    "type": "string"
+                },
+                "poResStatusId": {
+                    "type": "integer"
+                },
+                "poShippingCost": {
+                    "type": "number"
+                },
+                "poSupStatusId": {
+                    "type": "integer"
+                },
+                "poTimeSlot": {
+                    "type": "number"
+                },
+                "poTimeSlotTo": {
+                    "type": "number"
+                },
+                "poTotal": {
+                    "type": "number"
+                },
+                "poVat": {
+                    "type": "number"
+                },
+                "refPoId": {
+                    "type": "string"
+                },
+                "remarkFromWh": {
+                    "type": "string"
+                },
+                "resAddressId": {
+                    "type": "integer"
+                },
+                "runningId": {
+                    "type": "integer"
+                },
+                "sources": {
+                    "type": "string"
+                },
+                "supAddressId": {
+                    "type": "integer"
+                },
+                "updateBy": {
+                    "type": "integer"
+                },
+                "updateDate": {
+                    "type": "string"
+                },
+                "uploadedBy": {
+                    "type": "string"
+                },
+                "warehouseId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.SupplierOrderForCreate": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "automationStatus": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.AutomationStatus"
+                },
+                "supplierId": {
+                    "type": "integer"
+                },
+                "supplierName": {
+                    "type": "string"
+                },
+                "supplierOrderDetail": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderDetailLegacy"
+                },
+                "supplierOrderItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.SupplierOrderItemLegacy"
+                    }
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.SupplierOrderItemLegacy": {
+            "type": "object",
+            "properties": {
+                "automationItemStatus": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.AutomationItemStatus"
+                },
+                "createBy": {
+                    "type": "integer"
+                },
+                "createDate": {
+                    "type": "string"
+                },
+                "isChill": {
+                    "type": "boolean"
+                },
+                "isFrozen": {
+                    "type": "boolean"
+                },
+                "itemId": {
+                    "type": "integer"
+                },
+                "itemIsVat": {
+                    "type": "boolean"
+                },
+                "itemName": {
+                    "type": "string"
+                },
+                "itemNameId": {
+                    "type": "integer"
+                },
+                "itemPrice": {
+                    "type": "number"
+                },
+                "itemPriceExpDate": {
+                    "type": "string"
+                },
+                "itemPriceSupplier": {
+                    "type": "number"
+                },
+                "itemUnitId": {
+                    "type": "integer"
+                },
+                "itemUniversalUnitId": {
+                    "type": "integer"
+                },
+                "itemUniversalValue": {
+                    "type": "number"
+                },
+                "newPriceIncVat": {
+                    "type": "number"
+                },
+                "oldPriceIncVat": {
+                    "type": "number"
+                },
+                "packSize": {
+                    "type": "string"
+                },
+                "poId": {
+                    "type": "integer"
+                },
+                "poItemNewPrice": {
+                    "type": "number"
+                },
+                "poItemNewQty": {
+                    "type": "number"
+                },
+                "poItemOldPrice": {
+                    "type": "number"
+                },
+                "poItemOldQty": {
+                    "type": "number"
+                },
+                "poItemPriceExpDate": {
+                    "type": "string"
+                },
+                "updateBy": {
+                    "type": "integer"
+                },
+                "updateDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.SupplierTotalQuantity": {
+            "type": "object",
+            "properties": {
+                "itemId": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "number"
+                },
+                "supplierId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.ValidateMessage": {
+            "type": "object",
+            "properties": {
+                "isError": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "value": {}
+            }
+        },
+        "dependencies_services_procurement_core_domain_model.ValidateResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "12345678-1234-1234-1234-012345678902"
+                },
+                "itemId": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "poSequence": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "quantity": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "receivingDate": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "remark": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "supplierId": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "timeSlot": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                },
+                "warehouse": {
+                    "$ref": "#/definitions/dependencies_services_procurement_core_domain_model.ValidateMessage"
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateAllHandler": {
+            "type": "object",
+            "required": [
+                "date"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "example": "2023-11-11 17:00:00"
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.AutomationReCreateHandler": {
+            "type": "object",
+            "required": [
+                "draftPoDetails"
+            ],
+            "properties": {
+                "draftPoDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.DraftPoDetail"
+                    }
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.BulkSupplierOrder": {
+            "type": "object",
+            "required": [
+                "itemId",
+                "poSequence",
+                "quantity",
+                "receivingDate",
+                "supplierId",
+                "timeSlot",
+                "warehouse"
+            ],
+            "properties": {
+                "itemId": {
+                    "type": "integer",
+                    "example": 33401
+                },
+                "poSequence": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quantity": {
+                    "type": "number",
+                    "example": 100.77
+                },
+                "receivingDate": {
+                    "type": "string",
+                    "example": "2023-11-11"
+                },
+                "remark": {
+                    "type": "string",
+                    "example": "I am remark"
+                },
+                "supplierId": {
+                    "type": "integer",
+                    "example": 443
+                },
+                "timeSlot": {
+                    "type": "number",
+                    "example": 16
+                },
+                "warehouse": {
+                    "type": "string",
+                    "example": "LKB"
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.BulkValidateSupplierOrder": {
+            "type": "object",
+            "properties": {
+                "itemId": {},
+                "poSequence": {},
+                "quantity": {},
+                "receivingDate": {},
+                "remark": {
+                    "type": "string",
+                    "example": "I am remark"
+                },
+                "supplierId": {},
+                "timeSlot": {},
+                "warehouse": {}
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.DraftPoDetail": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "98590430258da8f0250497960d9c90de"
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.ItemReviewHandler": {
+            "type": "object",
+            "required": [
+                "editedQuantity",
+                "itemId"
+            ],
+            "properties": {
+                "editedQuantity": {
+                    "type": "number",
+                    "example": 100.77
+                },
+                "editedReason": {
+                    "type": "string",
+                    "example": "I am reason"
+                },
+                "itemId": {
+                    "type": "integer",
+                    "example": 33401
+                }
+            }
+        },
+        "services_procurement_core_app_handler_supplier_order_handler.ReviewSupplierOrderHandler": {
+            "type": "object",
+            "required": [
+                "_id",
+                "items"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "98590430258da8f0250497960d9c90de"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/services_procurement_core_app_handler_supplier_order_handler.ItemReviewHandler"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Authorization": {
+            "description": "The token generated from Auth0",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        },
+        "x-api-key": {
+            "description": "The internal api key",
+            "type": "apiKey",
+            "name": "x-api-key",
+            "in": "header"
+        }
+    }
+}
