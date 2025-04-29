@@ -16,11 +16,13 @@ func (h *Controller) GetCategories(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
 
-	categoriesResponses := lop.Map(categories, func(categories *domain.CategoriesData, _ int) *CategoriesResponses {
-		return &CategoriesResponses{
-			ID:    categories.ID,
-			Name:  categories.Name,
-			Image: categories.Image,
+	categoriesResponses := lop.Map(categories, func(category *domain.Category, _ int) *CategoryResponse {
+		return &CategoryResponse{
+			ID:    category.ID,
+			Name:  category.Name,
+			Image: category.Image,
+			CreatedAt: category.CreatedAt,
+			UpdatedAt: category.UpdatedAt,
 		}
 	})
 
