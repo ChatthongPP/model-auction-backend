@@ -1,10 +1,13 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
+	"strconv"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/auth"
+	"backend-service/pkg/utilities/responses"
 
 	"github.com/labstack/echo/v4"
 )
@@ -89,4 +92,37 @@ func (c *Controller) Login(ctx echo.Context) error {
 		"message": "Login successful",
 		"token":   token,
 	})
+}
+
+// @Summary		Get user profile
+// @Description	Retrieve profile information of the authenticated user
+// @Tags			Users
+// @Accept			json
+// @Produce		json
+// @Success		200		{object}	map[string]interface{}	"User profile retrieved successfully"
+// @Failure		401		{object}	map[string]interface{}	"Unauthorized"
+// @Failure		500		{object}	map[string]interface{}	"Failed to retrieve profile"
+// @Router			/api/users/profile [get]
+func (c *Controller) GetProfile(ctx echo.Context) error {
+	// Extract userID from JWT token in context
+	userIDStr, ok := ctx.Get("userID").(string)
+	if !ok || userIDStr == "" {
+		return ctx.JSON(http.StatusUnauthorized, map[string]interface{}{"error": "Unauthorized"})
+	}
+
+	// Convert userID to uint
+	userID, err := strconv.ParseUint(userIDStr, 10, 32)
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid user ID"})
+	}
+
+	user, err := c.uc.GetUserByID(uint(userID))
+	if err != nil {
+		if errors.Is(err, domain.ErrUserNotFound) {
+			return ctx.JSON(http.StatusNotFound, map[string]interface{}{"error": "User not found"})
+		}
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Failed to retrieve profile"})
+	}
+
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched profile", user))
 }

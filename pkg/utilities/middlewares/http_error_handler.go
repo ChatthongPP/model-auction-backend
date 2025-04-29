@@ -47,13 +47,13 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authHeader := c.Request().Header.Get("Authorization")
 		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
-			return echo.NewHTTPError(http.StatusUnauthorized, "Missing or invalid token")
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Missing or invalid token"})
 		}
 
 		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
 		claims, err := auth.ValidateToken(tokenStr)
 		if err != nil {
-			return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+			return c.JSON(http.StatusUnauthorized, map[string]string{"error": "Unauthorized: " + err.Error()})
 		}
 
 		c.Set("userID", claims.UserID)

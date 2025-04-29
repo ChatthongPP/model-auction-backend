@@ -39,3 +39,7 @@ func (uc *Usecase) Login(email, password string) (*domain.User, error) {
 
 	return user, nil
 }
+
+func (uc *Usecase) GetUserByID(userID uint) (*domain.User, error) {
+	return uc.userRepo.GetUserByID(userID)
+}

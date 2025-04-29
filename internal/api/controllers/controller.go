@@ -28,7 +28,7 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 
 	authGroup := group.Group("")
 	authGroup.Use(middlewares.AuthMiddleware)
-
+	authGroup.GET("/me", controller.GetProfile)
 	authGroup.GET("/categories", controller.GetCategories)
 }
 
