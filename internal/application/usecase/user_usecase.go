@@ -26,3 +26,16 @@ func (uc *Usecase) CreateUser(req domain.User) (res *domain.User, err error) {
 
 	return res, nil
 }
+
+func (uc *Usecase) Login(email, password string) (*domain.User, error) {
+	user, err := uc.userRepo.FindByEmail(email)
+	if err != nil {
+		return nil, domain.ErrEmailNotFound
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return nil, domain.ErrIncorrectPassword
+	}
+
+	return user, nil
+}

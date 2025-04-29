@@ -30,6 +30,7 @@ func MapUserToDomain(m models.User) User {
 		FirstName:   m.FirstName,
 		LastName:    m.LastName,
 		Email:       m.Email,
+		Password:    m.Password,
 		Gender:      m.Gender,
 		PhoneNumber: m.PhoneNumber,
 		Address:     m.Address,

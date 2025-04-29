@@ -1,9 +1,12 @@
 package middlewares
 
 import (
-	"backend-service/pkg/utilities/responses"
 	"errors"
 	"net/http"
+	"strings"
+
+	"backend-service/pkg/utilities/auth"
+	"backend-service/pkg/utilities/responses"
 
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -37,5 +40,23 @@ func CustomHTTPErrorHandler(logger *logrus.Logger) echo.HTTPErrorHandler {
 		}); err != nil {
 			logger.Error(err)
 		}
+	}
+}
+
+func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		authHeader := c.Request().Header.Get("Authorization")
+		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Missing or invalid token")
+		}
+
+		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
+		claims, err := auth.ValidateToken(tokenStr)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Unauthorized")
+		}
+
+		c.Set("userID", claims.UserID)
+		return next(c)
 	}
 }

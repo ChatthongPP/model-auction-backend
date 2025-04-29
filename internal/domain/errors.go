@@ -9,4 +9,6 @@ var (
 	ErrInvalidCredentials = errors.New("invalid email or password")
 	ErrUnauthorized       = errors.New("unauthorized")
 	ErrForbidden          = errors.New("forbidden access")
+	ErrEmailNotFound      = errors.New("email not found")
+	ErrIncorrectPassword  = errors.New("incorrect password")
 )

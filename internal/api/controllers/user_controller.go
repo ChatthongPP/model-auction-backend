@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"backend-service/internal/domain"
+	"backend-service/pkg/utilities/auth"
 
 	"github.com/labstack/echo/v4"
 )
@@ -49,5 +50,43 @@ func (c *Controller) CreateUser(ctx echo.Context) error {
 	return ctx.JSON(http.StatusCreated, map[string]interface{}{
 		"message": "User registered successfully",
 		"user":    res,
+	})
+}
+
+// @Summary		User login
+// @Description	Authenticate user and return JWT token
+// @Tags			Users
+// @Accept			json
+// @Produce		json
+// @Param			credentials	body	LoginRequest	true	"Login credentials"
+// @Success		200	{object}	map[string]interface{}	"Login successful"
+// @Failure		400	{object}	map[string]interface{}	"Invalid input"
+// @Failure		401	{object}	map[string]interface{}	"Incorrect email or password"
+// @Router			/api/users/login [post]
+func (c *Controller) Login(ctx echo.Context) error {
+	var req LoginRequest
+	if err := ctx.Bind(&req); err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+	}
+
+	user, err := c.uc.Login(req.Email, req.Password)
+	if err != nil {
+		if err == domain.ErrEmailNotFound {
+			return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		}
+		if err == domain.ErrIncorrectPassword {
+			return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		}
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Login failed"})
+	}
+
+	token, err := auth.GenerateJWT(user.ID, user.Email, user.RoleID)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Failed to generate token"})
+	}
+
+	return ctx.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Login successful",
+		"token":   token,
 	})
 }
