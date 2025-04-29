@@ -1,0 +1,20 @@
+-- public.categories definition
+
+-- Drop table
+
+-- DROP TABLE public.categories;
+
+CREATE TABLE public.categories (
+	id serial4 NOT NULL,
+	"name" varchar(100) NOT NULL,
+	image varchar(255) NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	deleted_at timestamptz NULL,
+	CONSTRAINT categories_pkey PRIMARY KEY (id)
+);
+
+-- Permissions
+
+ALTER TABLE public.categories OWNER TO postgres;
+GRANT ALL ON TABLE public.categories TO postgres;
