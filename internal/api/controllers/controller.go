@@ -21,6 +21,7 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	group.POST("/hello", controller.Hello)
 
 	group.GET("/categories", controller.GetCategories)
+	group.POST("/register", controller.CreateUser)
 }
 
 func currentTime() *time.Time {

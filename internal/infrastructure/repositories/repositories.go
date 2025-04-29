@@ -7,6 +7,7 @@ import (
 type Repository struct {
 	ExampleRepo    *Repo
 	CategoriesRepo *Repo
+	UserRepo       *Repo
 }
 
 type Repo struct {
@@ -19,6 +20,9 @@ func New(db *gorm.DB) *Repository {
 			db: db,
 		},
 		CategoriesRepo: &Repo{
+			db: db,
+		},
+		UserRepo: &Repo{
 			db: db,
 		},
 	}
