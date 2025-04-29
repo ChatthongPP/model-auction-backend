@@ -6,13 +6,15 @@ import (
 )
 
 type Usecase struct {
-	exampleRepo    domain.ExampleInterface
-	categoriesRepo domain.CategoriesInterface
+	exampleRepo  domain.ExampleInterface
+	categoryRepo domain.CategoryInterface
+	productRepo  domain.ProductInterface
 }
 
 func New(repo *repositories.Repository) *Usecase {
 	return &Usecase{
-		exampleRepo:    repo.ExampleRepo,
-		categoriesRepo: repo.CategoriesRepo,
+		exampleRepo:  repo.ExampleRepo,
+		categoryRepo: repo.CategoryRepo,
+		productRepo:  repo.ProductRepo,
 	}
 }

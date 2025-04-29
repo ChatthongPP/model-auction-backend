@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type CategoriesModel struct {
+type CategoryModel struct {
 	ID        int            `gorm:"column:id;primary_key" json:"id"`
 	Name      string         `gorm:"column:name" json:"name"`
 	Image     string         `gorm:"column:image" json:"image"`
@@ -15,6 +15,6 @@ type CategoriesModel struct {
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
 }
 
-func (*CategoriesModel) TableName() string {
+func (*CategoryModel) TableName() string {
 	return "categories"
 }
