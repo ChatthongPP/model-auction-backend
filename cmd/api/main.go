@@ -17,18 +17,6 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-// @contact.name				บริษัท โพ​ลาร์​ แบร์ ​มิ​ชชั่น ​จำกัด
-// @contact.url				https://www.freshket.co/
-// @contact.email				contact@freshket.co
-//
-// @title						Merchandise Pricing services
-// @version					v1
-// @description				Freshket Merchandise Pricing services API document
-//
-// @securityDefinitions.apikey	Authorization
-// @in							header
-// @name						Authorization
-// @description				The token generated from Auth0
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal(err)

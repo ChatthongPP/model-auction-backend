@@ -11,11 +11,11 @@ import (
 )
 
 type Config struct {
-	Host     string `env:"THIRDPARTY_POS_HOST"`
-	Username string `env:"THIRDPARTY_POS_USERNAME"`
-	Password string `env:"THIRDPARTY_POS_PASSWORD"`
-	Database string `env:"THIRDPARTY_POS_DATABASE"`
-	Port     int    `env:"THIRDPARTY_POS_PORT"`
+	Host     string `env:"DB_HOST"`
+	Username string `env:"DB_USERNAME"`
+	Password string `env:"DB_PASSWORD"`
+	Database string `env:"DB_DATABASE"`
+	Port     int    `env:"DB_PORT"`
 }
 
 // BuildDSN func
