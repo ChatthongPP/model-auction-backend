@@ -25,11 +25,11 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	group.POST("/hello", controller.Hello)
 	group.POST("/register", controller.CreateUser)
 	group.POST("/login", controller.Login)
+	group.GET("/categories", controller.GetCategories)
 
 	authGroup := group.Group("")
 	authGroup.Use(middlewares.AuthMiddleware)
 	authGroup.GET("/me", controller.GetProfile)
-	authGroup.GET("/categories", controller.GetCategories)
 }
 
 func currentTime() *time.Time {
