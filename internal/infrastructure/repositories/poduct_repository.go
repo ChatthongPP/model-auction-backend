@@ -32,3 +32,33 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 
 	return nil
 }
+
+func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
+	dbProduct := &models.ProductModel{}
+	err := r.db.First(dbProduct, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	product := &domain.Product{
+		ID:                  dbProduct.ID,
+		Name:                dbProduct.Name,
+		Description:         dbProduct.Description,
+		CategoryID:          dbProduct.CategoryID,
+		SellerID:            dbProduct.SellerID,
+		ActualPrice:         dbProduct.ActualPrice,
+		StartingBidPrice:    dbProduct.StartingBidPrice,
+		CurrentBidPrice:     dbProduct.CurrentBidPrice,
+		MinimumBidIncrement: dbProduct.MinimumBidIncrement,
+		ShippingPrice:       dbProduct.ShippingPrice,
+		ServiceFee:          dbProduct.ServiceFee,
+		AuctionStartTime:    dbProduct.AuctionStartTime,
+		AuctionEndTime:      dbProduct.AuctionEndTime,
+		Status:              dbProduct.Status,
+		// Image:            dbProduct.Image,
+		CreatedAt: dbProduct.CreatedAt,
+		UpdatedAt: dbProduct.UpdatedAt,
+	}
+
+	return product, nil
+}

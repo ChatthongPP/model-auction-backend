@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/responses"
@@ -41,4 +42,18 @@ func (h *Controller) CreateProduct(ctx echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully created product", product))
+}
+
+func (h *Controller) GetProductByID(ctx echo.Context) error {
+	productID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, "Invalid Product ID"))
+	}
+
+	product, err := h.uc.GetProductByID(productID)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched product", product))
 }

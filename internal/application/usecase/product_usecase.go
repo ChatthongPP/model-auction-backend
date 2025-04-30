@@ -9,3 +9,11 @@ func (uc *Usecase) CreateProduct(product *domain.Product) error {
 	}
 	return nil
 }
+
+func (uc *Usecase) GetProductByID(id int) (*domain.Product, error) {
+	product, err := uc.productRepo.GetProductByID(id)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
+}
