@@ -1,3 +1,5 @@
 package domain
 
-type ProductInterface interface{}
+type ProductInterface interface {
+	CreateProduct(product *Product) error
+}
