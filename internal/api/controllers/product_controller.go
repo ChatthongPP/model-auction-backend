@@ -57,3 +57,38 @@ func (h *Controller) GetProductByID(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched product", product))
 }
+
+func (h *Controller) GetProducts(ctx echo.Context) error {
+	var filterReq FilterRequest
+	if err := ctx.Bind(&filterReq); err != nil {
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, "Invalid query parameters"))
+	}
+	if err := validator.Validate(&filterReq); err != nil {
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	filter := &domain.FilterRequest{
+		CurrrentPage: filterReq.CurrrentPage,
+		Limit:        filterReq.Limit,
+		OrderBy:      filterReq.OrderBy,
+		Order:        filterReq.Order,
+		Search:       filterReq.Search,
+		CategoryID:   filterReq.CategoryID,
+		Status:       filterReq.Status,
+	}
+
+	products, totalCount, totalPages, err := h.uc.GetProducts(filter)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	pagination := PaginationResponse{
+		CurrrentPage: filter.CurrrentPage,
+		Limit:        filter.Limit,
+		TotalCount:   totalCount,
+		TotalPages:   totalPages,
+		Data:         products,
+	}
+
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched products", pagination))
+}
