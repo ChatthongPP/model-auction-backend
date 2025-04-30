@@ -19,6 +19,8 @@ type AppConfig struct {
 	Basepath string `env:"BASE_PATH"`
 	// OmsSyncItemApi    string `env:"OMS_SYNC_ITEM_API"`
 	// OmsSyncItemApiKey string `env:"OMS_SYNC_ITEM_API_KEY"`
+	AuctionWebLocal string `env:"AUCTION_WEB_HOST_LOCAL"`
+	AuctionWebProd  string `env:"AUCTION_WEB_HOST_PROD"`
 }
 
 func GetAppconfig() *AppConfig {
