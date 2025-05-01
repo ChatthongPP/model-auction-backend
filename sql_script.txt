@@ -18,6 +18,7 @@ CREATE TABLE public.categories (
 
 ALTER TABLE public.categories OWNER TO postgres;
 GRANT ALL ON TABLE public.categories TO postgres;
+==============================================================================================================
 
 -- public.roles definition
 
@@ -38,19 +39,20 @@ CREATE TABLE public.roles (
 
 ALTER TABLE public.roles OWNER TO postgres;
 GRANT ALL ON TABLE public.roles TO postgres;
-
+----------------------------------------------------------------------------------------------------------
 INSERT INTO public.roles ("name")
 values
   ('Super Admin'),
   ('Admin'),
   ('Bidder'),
-  ('Seller');
+  ('Seller'); 
 
 -- public.users definition
 
 -- Drop table
 
 -- DROP TABLE public.users;
+============================================================================================================
 
 CREATE TABLE public.users (
 	id serial4 NOT NULL,
@@ -75,3 +77,39 @@ CREATE TABLE public.users (
 
 ALTER TABLE public.users OWNER TO postgres;
 GRANT ALL ON TABLE public.users TO postgres;
+=============================================================================================================
+
+-- public.products definition
+
+-- Drop table
+
+-- DROP TABLE public.products;
+
+CREATE TABLE public.products (
+	id serial4 NOT NULL,
+	"name" text NOT NULL,
+	description text NULL,
+	category_id int4 NOT NULL,
+	seller_id int4 NOT NULL,
+	actual_price numeric(10, 2) NOT NULL,
+	starting_bid_price numeric(10, 2) NOT NULL,
+	current_bid_price numeric(10, 2) NOT NULL,
+	minimum_bid_increment numeric(10, 2) NOT NULL,
+	shipping_price numeric(10, 2) NOT NULL,
+	service_fee numeric(10, 2) NOT NULL,
+	auction_start_time timestamp NOT NULL,
+	auction_end_time timestamp NOT NULL,
+	status text NOT NULL,
+	image bytea NULL,
+	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	deleted_at timestamp NULL,
+	CONSTRAINT products_pkey PRIMARY KEY (id)
+);
+
+-- Permissions
+
+ALTER TABLE public.products OWNER TO postgres;
+GRANT ALL ON TABLE public.products TO postgres;
+
+==========================================================================================================

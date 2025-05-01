@@ -26,7 +26,7 @@ import (
 func (c *Controller) CreateUser(ctx echo.Context) error {
 	var req UserRequest
 	if err := ctx.Bind(&req); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 	}
 
 	user := domain.User{
@@ -45,15 +45,12 @@ func (c *Controller) CreateUser(ctx echo.Context) error {
 	if err != nil {
 
 		if err == domain.ErrEmailAlreadyExists {
-			return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+			return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 		}
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Failed to create user"})
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
 
-	return ctx.JSON(http.StatusCreated, map[string]interface{}{
-		"message": "User registered successfully",
-		"user":    res,
-	})
+	return ctx.JSON(http.StatusCreated, responses.Ok(http.StatusCreated, "User registered successfully", res))
 }
 
 // @Summary		User login
@@ -69,29 +66,28 @@ func (c *Controller) CreateUser(ctx echo.Context) error {
 func (c *Controller) Login(ctx echo.Context) error {
 	var req LoginRequest
 	if err := ctx.Bind(&req); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 	}
 
 	user, err := c.uc.Login(req.Email, req.Password)
 	if err != nil {
 		if err == domain.ErrEmailNotFound {
-			return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+			return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 		}
 		if err == domain.ErrIncorrectPassword {
-			return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": err.Error()})
+			return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 		}
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Login failed"})
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
 
 	token, err := auth.GenerateJWT(user.ID, user.Email, user.RoleID)
 	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Failed to generate token"})
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
 
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Login successful",
-		"token":   token,
-	})
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Login successful", map[string]interface{}{
+		"token": token,
+	}))
 }
 
 // @Summary		Get user profile
@@ -107,21 +103,21 @@ func (c *Controller) GetProfile(ctx echo.Context) error {
 	// Extract userID from JWT token in context
 	userIDStr, ok := ctx.Get("userID").(string)
 	if !ok || userIDStr == "" {
-		return ctx.JSON(http.StatusUnauthorized, map[string]interface{}{"error": "Unauthorized"})
+		return ctx.JSON(http.StatusUnauthorized, responses.Error(http.StatusUnauthorized, "Unauthorized"))
 	}
 
 	// Convert userID to uint
 	userID, err := strconv.ParseUint(userIDStr, 10, 32)
 	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{"error": "Invalid user ID"})
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
 	}
 
 	user, err := c.uc.GetUserByID(uint(userID))
 	if err != nil {
 		if errors.Is(err, domain.ErrUserNotFound) {
-			return ctx.JSON(http.StatusNotFound, map[string]interface{}{"error": "User not found"})
+			return ctx.JSON(http.StatusNotFound, responses.Error(http.StatusNotFound, err.Error()))
 		}
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{"error": "Failed to retrieve profile"})
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched profile", user))
