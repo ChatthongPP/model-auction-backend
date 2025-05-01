@@ -18,6 +18,7 @@ CREATE TABLE public.categories (
 
 ALTER TABLE public.categories OWNER TO postgres;
 GRANT ALL ON TABLE public.categories TO postgres;
+==============================================================================================================
 
 -- public.roles definition
 
@@ -38,19 +39,20 @@ CREATE TABLE public.roles (
 
 ALTER TABLE public.roles OWNER TO postgres;
 GRANT ALL ON TABLE public.roles TO postgres;
-
+----------------------------------------------------------------------------------------------------------
 INSERT INTO public.roles ("name")
 values
   ('Super Admin'),
   ('Admin'),
   ('Bidder'),
-  ('Seller');
+  ('Seller'); 
 
 -- public.users definition
 
 -- Drop table
 
 -- DROP TABLE public.users;
+============================================================================================================
 
 CREATE TABLE public.users (
 	id serial4 NOT NULL,
@@ -75,6 +77,8 @@ CREATE TABLE public.users (
 
 ALTER TABLE public.users OWNER TO postgres;
 GRANT ALL ON TABLE public.users TO postgres;
+
+=============================================================================================================
 
 -- public.products definition
 
@@ -108,3 +112,7 @@ CREATE TABLE public.products (
 
 ALTER TABLE public.products OWNER TO postgres;
 GRANT ALL ON TABLE public.products TO postgres;
+
+==========================================================================================================
+
+
