@@ -21,6 +21,7 @@ func (h *Controller) CreateProduct(ctx echo.Context) error {
 		validationErrors := validator.FormatValidationErrors(err)
 		return ctx.JSON(http.StatusBadRequest, validationErrors)
 	}
+
 	product := &domain.Product{
 		Name:                productReq.Name,
 		Description:         productReq.Description,

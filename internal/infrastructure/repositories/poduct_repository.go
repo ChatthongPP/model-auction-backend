@@ -118,3 +118,29 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 
 	return domainProducts, int(totalCount), nil
 }
+
+func (r *Repo) UpdateProduct(product *domain.Product) error {
+	dbProduct := models.ProductModel{
+		Name:                product.Name,
+		Description:         product.Description,
+		CategoryID:          product.CategoryID,
+		SellerID:            product.SellerID,
+		ActualPrice:         product.ActualPrice,
+		StartingBidPrice:    product.StartingBidPrice,
+		CurrentBidPrice:     product.CurrentBidPrice,
+		MinimumBidIncrement: product.MinimumBidIncrement,
+		ShippingPrice:       product.ShippingPrice,
+		ServiceFee:          product.ServiceFee,
+		AuctionStartTime:    product.AuctionStartTime,
+		AuctionEndTime:      product.AuctionEndTime,
+		Status:              product.Status,
+		// Image: product.Image,
+		UpdatedAt: product.UpdatedAt,
+	}
+
+	if err := r.db.Model(&dbProduct).Where("id = ?", product.ID).Updates(&dbProduct).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
