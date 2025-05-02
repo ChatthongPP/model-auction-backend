@@ -10,6 +10,7 @@ type Usecase struct {
 	categoryRepo domain.CategoryInterface
 	productRepo  domain.ProductInterface
 	userRepo     domain.UserInterface
+	bidRepo      domain.BidInterface
 }
 
 func New(repo *repositories.Repository) *Usecase {
@@ -18,5 +19,6 @@ func New(repo *repositories.Repository) *Usecase {
 		categoryRepo: repo.CategoryRepo,
 		productRepo:  repo.ProductRepo,
 		userRepo:     repo.UserRepo,
+		bidRepo:      repo.BidRepo,
 	}
 }

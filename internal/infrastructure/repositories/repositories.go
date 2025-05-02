@@ -9,6 +9,7 @@ type Repository struct {
 	CategoryRepo *Repo
 	ProductRepo  *Repo
 	UserRepo     *Repo
+	BidRepo      *Repo
 }
 
 type Repo struct {
@@ -27,6 +28,9 @@ func New(db *gorm.DB) *Repository {
 			db: db,
 		},
 		UserRepo: &Repo{
+			db: db,
+		},
+		BidRepo: &Repo{
 			db: db,
 		},
 	}
