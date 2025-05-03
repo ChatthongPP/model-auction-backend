@@ -6,15 +6,8 @@ import (
 	"backend-service/internal/domain"
 )
 
-func (uc *Usecase) CreateBid(bidReq *domain.Bid) error {
-	bid := &domain.Bid{
-		ProductID: bidReq.ProductID,
-		UserID:    bidReq.UserID,
-		BidAmount: bidReq.BidAmount,
-		BidTime:   bidReq.BidTime,
-	}
-
-	product, err := uc.productRepo.GetProductByID(bidReq.ProductID)
+func (uc *Usecase) CreateBid(bid *domain.Bid) error {
+	product, err := uc.productRepo.GetProductByID(bid.ProductID)
 	if err != nil {
 		return err
 	}
@@ -36,4 +29,17 @@ func (uc *Usecase) CreateBid(bidReq *domain.Bid) error {
 	}
 
 	return nil
+}
+
+func (uc *Usecase) GetBids(filter *domain.FilterRequest) ([]*domain.Bid, int, int, error) {
+	offset := (filter.CurrrentPage - 1) * filter.Limit
+
+	bids, totalCount, err := uc.bidRepo.GetBids(filter, offset)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+
+	totalPages := (totalCount + filter.Limit - 1) / filter.Limit
+
+	return bids, totalCount, totalPages, nil
 }
