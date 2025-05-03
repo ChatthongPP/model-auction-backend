@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/responses"
@@ -36,6 +37,8 @@ func (h *Controller) CreateProduct(ctx echo.Context) error {
 		AuctionStartTime:    productReq.AuctionStartTime,
 		AuctionEndTime:      productReq.AuctionEndTime,
 		Status:              productReq.Status,
+		CreatedAt:           time.Now().UTC(),
+		UpdatedAt:           time.Now().UTC(),
 	}
 
 	if err := h.uc.CreateProduct(product); err != nil {

@@ -102,8 +102,8 @@ CREATE TABLE public.products (
 	auction_end_time timestamp NOT NULL,
 	status text NOT NULL,
 	image bytea NULL,
-	created_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
-	updated_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
+	created_at timestamp DEFAULT now() NULL,
+	updated_at timestamp DEFAULT now() NULL,
 	deleted_at timestamp NULL,
 	CONSTRAINT products_pkey PRIMARY KEY (id)
 );

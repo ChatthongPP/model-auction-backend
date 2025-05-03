@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"time"
-
 	"backend-service/internal/application/usecase"
 	"backend-service/pkg/utilities/middlewares"
 
@@ -37,12 +35,12 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	authGroup.GET("/bids", controller.GetBids)
 }
 
-func currentTime() *time.Time {
-	location, err := time.LoadLocation("Asia/Bangkok")
-	if err != nil {
-		return nil
-	}
+// func currentTime() *time.Time {
+// 	location, err := time.LoadLocation("Asia/Bangkok")
+// 	if err != nil {
+// 		return nil
+// 	}
 
-	currentTime := time.Now().In(location)
-	return &currentTime
-}
+// 	currentTime := time.Now().In(location)
+// 	return &currentTime
+// }
