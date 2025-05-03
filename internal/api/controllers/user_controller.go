@@ -122,3 +122,17 @@ func (c *Controller) GetProfile(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched profile", user))
 }
+
+func (h *Controller) GetUserByID(ctx echo.Context) error {
+	userID, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, "Invalid User ID"))
+	}
+
+	user, err := h.uc.GetUserByID(uint(userID))
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched user", user))
+}
