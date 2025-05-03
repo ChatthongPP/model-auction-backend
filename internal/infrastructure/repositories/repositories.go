@@ -5,11 +5,12 @@ import (
 )
 
 type Repository struct {
-	ExampleRepo  *Repo
-	CategoryRepo *Repo
-	ProductRepo  *Repo
-	UserRepo     *Repo
-	BidRepo      *Repo
+	ExampleRepo   *Repo
+	CategoryRepo  *Repo
+	ProductRepo   *Repo
+	UserRepo      *Repo
+	BidRepo       *Repo
+	WalletLogRepo *Repo
 }
 
 type Repo struct {
@@ -31,6 +32,9 @@ func New(db *gorm.DB) *Repository {
 			db: db,
 		},
 		BidRepo: &Repo{
+			db: db,
+		},
+		WalletLogRepo: &Repo{
 			db: db,
 		},
 	}

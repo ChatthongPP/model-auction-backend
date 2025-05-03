@@ -6,19 +6,21 @@ import (
 )
 
 type Usecase struct {
-	exampleRepo  domain.ExampleInterface
-	categoryRepo domain.CategoryInterface
-	productRepo  domain.ProductInterface
-	userRepo     domain.UserInterface
-	bidRepo      domain.BidInterface
+	exampleRepo   domain.ExampleInterface
+	categoryRepo  domain.CategoryInterface
+	productRepo   domain.ProductInterface
+	userRepo      domain.UserInterface
+	bidRepo       domain.BidInterface
+	walletLogRepo domain.WalletLogInterface
 }
 
 func New(repo *repositories.Repository) *Usecase {
 	return &Usecase{
-		exampleRepo:  repo.ExampleRepo,
-		categoryRepo: repo.CategoryRepo,
-		productRepo:  repo.ProductRepo,
-		userRepo:     repo.UserRepo,
-		bidRepo:      repo.BidRepo,
+		exampleRepo:   repo.ExampleRepo,
+		categoryRepo:  repo.CategoryRepo,
+		productRepo:   repo.ProductRepo,
+		userRepo:      repo.UserRepo,
+		bidRepo:       repo.BidRepo,
+		walletLogRepo: repo.WalletLogRepo,
 	}
 }
