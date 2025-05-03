@@ -34,6 +34,7 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	authGroup.POST("/products", controller.CreateProduct)
 	authGroup.GET("/products/:id", controller.GetProductByID)
 	authGroup.POST("/bids", controller.CreateBid)
+	authGroup.GET("/bids", controller.GetBids)
 }
 
 func currentTime() *time.Time {
