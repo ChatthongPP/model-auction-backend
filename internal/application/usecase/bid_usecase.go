@@ -12,10 +12,11 @@ func (uc *Usecase) CreateBid(bid *domain.Bid) error {
 		return err
 	}
 
-	currentTime := time.Now()
+	product.CurrentBidPrice = bid.BidAmount
+	currentTime := bid.BidTime
 	timeRemaining := product.AuctionEndTime.Sub(currentTime)
 	if timeRemaining <= time.Minute {
-		newEndTime := currentTime.Add(time.Minute)
+		newEndTime := product.AuctionEndTime.Add(time.Minute)
 		product.AuctionEndTime = newEndTime
 
 		err = uc.productRepo.UpdateProduct(product)

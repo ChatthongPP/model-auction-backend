@@ -13,6 +13,8 @@ func (r *Repo) CreateBid(bid *domain.Bid) error {
 		UserID:    bid.UserID,
 		BidAmount: bid.BidAmount,
 		BidTime:   bid.BidTime,
+		CreatedAt: bid.CreatedAt,
+		UpdatedAt: bid.UpdatedAt,
 	}
 
 	err := r.db.Create(dbBid).Error

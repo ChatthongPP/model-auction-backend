@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/responses"
@@ -31,7 +32,9 @@ func (h *Controller) CreateBid(ctx echo.Context) error {
 		ProductID: productID,
 		UserID:    bidReq.UserID,
 		BidAmount: bidReq.BidAmount,
-		BidTime:   *currentTime(),
+		BidTime:   time.Now().UTC(),
+		CreatedAt: time.Now().UTC(),
+		UpdatedAt: time.Now().UTC(),
 	}
 
 	if err := h.uc.CreateBid(bid); err != nil {
