@@ -39,7 +39,8 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 
 func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 	dbProduct := &models.ProductModel{}
-	err := r.db.First(dbProduct, id).Error
+
+	err := r.db.Preload("Category").Preload("User").First(dbProduct, id).Error
 	if err != nil {
 		return nil, err
 	}
@@ -59,9 +60,12 @@ func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 		AuctionStartTime:    dbProduct.AuctionStartTime,
 		AuctionEndTime:      dbProduct.AuctionEndTime,
 		Status:              dbProduct.Status,
+		CreatedAt:           dbProduct.CreatedAt,
+		UpdatedAt:           dbProduct.UpdatedAt,
+		CategoryName:        dbProduct.Category.Name,
+		SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
 		// Image:            dbProduct.Image,
-		CreatedAt: dbProduct.CreatedAt,
-		UpdatedAt: dbProduct.UpdatedAt,
+
 	}
 
 	return product, nil

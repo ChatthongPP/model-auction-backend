@@ -17,7 +17,9 @@ type Product struct {
 	AuctionStartTime    time.Time `json:"auction_start_time"`
 	AuctionEndTime      time.Time `json:"auction_end_time"`
 	Status              string    `json:"status"`
+	CreatedAt           time.Time `json:"created_at"`
+	UpdatedAt           time.Time `json:"updated_at"`
+	CategoryName        string    `json:"category_name"`
+	SellerName          string    `json:"seller_name"`
 	// Image            string    `json:"image"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
 }
