@@ -91,12 +91,11 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 		query = query.Order(filter.OrderBy + " " + filter.Order)
 	}
 
-	err := query.Limit(filter.Limit).Offset(offset).Find(&products).Error
-	if err != nil {
+	if err := query.Count(&totalCount).Error; err != nil {
 		return nil, 0, err
 	}
 
-	err = query.Count(&totalCount).Error
+	err := query.Limit(filter.Limit).Offset(offset).Find(&products).Error
 	if err != nil {
 		return nil, 0, err
 	}
