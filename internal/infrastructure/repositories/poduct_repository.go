@@ -148,3 +148,11 @@ func (r *Repo) UpdateProduct(product *domain.Product) error {
 
 	return nil
 }
+
+func (r *Repo) DeleteProduct(id int) error {
+	if err := r.db.Where("id = ?", id).Delete(&models.ProductModel{}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

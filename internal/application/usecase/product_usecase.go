@@ -38,3 +38,12 @@ func (uc *Usecase) UpdateProduct(product *domain.Product) error {
 	}
 	return nil
 }
+
+func (uc *Usecase) DeleteProduct(id int) error {
+	err := uc.productRepo.DeleteProduct(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
