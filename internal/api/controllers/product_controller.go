@@ -80,6 +80,7 @@ func (h *Controller) GetProducts(ctx echo.Context) error {
 		Search:       filterReq.Search,
 		CategoryID:   filterReq.CategoryID,
 		Status:       filterReq.Status,
+		SellerID:     filterReq.SellerID,
 	}
 
 	products, totalCount, totalPages, err := h.uc.GetProducts(filter)
