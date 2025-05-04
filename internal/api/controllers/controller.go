@@ -28,12 +28,19 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 
 	authGroup := group.Group("")
 	authGroup.Use(middlewares.AuthMiddleware)
+
+	authGroup.POST("/media/upload", controller.UploadMedia)
+	authGroup.GET("/media/:topic/:filename", controller.GetMedia)
+
 	authGroup.GET("/me", controller.GetProfile)
 	authGroup.GET("/users/:id", controller.GetUserByID)
+
 	authGroup.POST("/products", controller.CreateProduct)
 	authGroup.GET("/products/:id", controller.GetProductByID)
+
 	authGroup.POST("/bids", controller.CreateBid)
 	authGroup.GET("/bids", controller.GetBids)
+
 	authGroup.GET("/wallet-logs", controller.GetWalletLogs)
 }
 
