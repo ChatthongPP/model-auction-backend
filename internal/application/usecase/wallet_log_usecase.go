@@ -14,3 +14,11 @@ func (uc *Usecase) GetWalletLogs(filter *domain.FilterRequest) ([]*domain.Wallet
 
 	return WalletLogs, totalCount, totalPages, nil
 }
+
+func (uc *Usecase) CreateWalletLog(walletLog *domain.WalletLog) error {
+	err := uc.walletLogRepo.CreateWalletLog(walletLog)
+	if err != nil {
+		return err
+	}
+	return nil
+}

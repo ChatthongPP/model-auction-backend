@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"time"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/responses"
@@ -41,4 +42,31 @@ func (h *Controller) GetWalletLogs(ctx echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched wallet logs", pagination))
+}
+
+func (h *Controller) CreateWalletLog(ctx echo.Context) error {
+	var walletLogReq WalletLogRequest
+	if err := ctx.Bind(&walletLogReq); err != nil {
+		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	if err := validator.Validate(&walletLogReq); err != nil {
+		validationErrors := validator.FormatValidationErrors(err)
+		return ctx.JSON(http.StatusBadRequest, validationErrors)
+	}
+
+	walletLog := &domain.WalletLog{
+		Amount:      walletLogReq.Amount,
+		UserID:      walletLogReq.UserID,
+		Status:      walletLogReq.Status,
+		UpdatedByID: walletLogReq.UpdatedByID,
+		CreatedAt:   time.Now().UTC(),
+		UpdatedAt:   time.Now().UTC(),
+	}
+
+	if err := h.uc.CreateWalletLog(walletLog); err != nil {
+		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully created wallet log", walletLog))
 }
