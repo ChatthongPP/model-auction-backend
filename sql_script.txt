@@ -115,4 +115,62 @@ GRANT ALL ON TABLE public.products TO postgres;
 
 ==========================================================================================================
 
+-- public.bids definition
 
+-- Drop table
+
+-- DROP TABLE public.bids;
+
+CREATE TABLE public.bids (
+	id serial4 NOT NULL,
+	product_id int4 NOT NULL,
+	user_id int4 NOT NULL,
+	bid_amount float8 NOT NULL,
+	bid_time timestamptz NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	deleted_at timestamptz NULL,
+	CONSTRAINT bids_pkey PRIMARY KEY (id)
+);
+
+-- Permissions
+
+ALTER TABLE public.bids OWNER TO postgres;
+GRANT ALL ON TABLE public.bids TO postgres;
+
+
+-- public.bids foreign keys
+
+ALTER TABLE public.bids ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES public.products(id);
+ALTER TABLE public.bids ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+=====================================================================================================================
+
+-- public.wallets_log definition
+
+-- Drop table
+
+-- DROP TABLE public.wallets_log;
+
+CREATE TABLE public.wallets_log (
+	id serial4 NOT NULL,
+	amount float8 NOT NULL,
+	user_id int4 NOT NULL,
+	status varchar(100) NOT NULL,
+	update_by_id int4 NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	deleted_at timestamptz NOT NULL,
+	CONSTRAINT wallets_log_pkey PRIMARY KEY (id)
+);
+
+-- Permissions
+
+ALTER TABLE public.wallets_log OWNER TO postgres;
+GRANT ALL ON TABLE public.wallets_log TO postgres;
+
+
+-- public.wallets_log foreign keys
+
+ALTER TABLE public.wallets_log ADD CONSTRAINT fk_update_by_id FOREIGN KEY (update_by_id) REFERENCES public.users(id);
+ALTER TABLE public.wallets_log ADD CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES public.users(id);
