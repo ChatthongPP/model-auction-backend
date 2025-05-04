@@ -63,7 +63,7 @@ func (h *Controller) GetBids(ctx echo.Context) error {
 		ProductID:    filterReq.ProductID,
 	}
 
-	products, totalCount, totalPages, err := h.uc.GetProducts(filter)
+	bids, totalCount, totalPages, err := h.uc.GetBids(filter)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
 	}
@@ -73,8 +73,8 @@ func (h *Controller) GetBids(ctx echo.Context) error {
 		Limit:        filter.Limit,
 		TotalCount:   totalCount,
 		TotalPages:   totalPages,
-		Data:         products,
+		Data:         bids,
 	}
 
-	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched products", pagination))
+	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched bids", pagination))
 }
