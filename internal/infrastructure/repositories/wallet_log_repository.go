@@ -43,3 +43,22 @@ func (r *Repo) GetWalletLogs(filter *domain.FilterRequest, offset int) ([]*domai
 
 	return domainWalletLogs, int(totalCount), nil
 }
+
+func (r *Repo) CreateWalletLog(walletLog *domain.WalletLog) error {
+	dbWalletLog := &models.WalletLogModel{
+		Amount:      walletLog.Amount,
+		UserID:      walletLog.UserID,
+		UpdatedByID: walletLog.UpdatedByID,
+		CreatedAt:   walletLog.CreatedAt,
+		UpdatedAt:   walletLog.UpdatedAt,
+	}
+
+	err := r.db.Create(dbWalletLog).Error
+	if err != nil {
+		return err
+	}
+
+	walletLog.ID = dbWalletLog.ID
+
+	return nil
+}
