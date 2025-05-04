@@ -14,9 +14,10 @@ type AppConfig struct {
 	Client *database.Config
 	// GrowthBookUrl     string `env:"THIRDPARTY_GROWTHBOOK_URL"`
 	// AuthBaseURL       string `env:"AUTH_BASE_URL"`
-	Port     string `env:"API_PORT"`
-	Env      string `env:"APP_ENV"`
-	Basepath string `env:"BASE_PATH"`
+	Port      string `env:"API_PORT"`
+	MediaHost string `env:"MEDIA_HOST"`
+	Env       string `env:"APP_ENV"`
+	Basepath  string `env:"BASE_PATH"`
 	// OmsSyncItemApi    string `env:"OMS_SYNC_ITEM_API"`
 	// OmsSyncItemApiKey string `env:"OMS_SYNC_ITEM_API_KEY"`
 	AuctionWebLocal string `env:"AUCTION_WEB_HOST_LOCAL"`

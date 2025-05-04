@@ -3,54 +3,27 @@ package usecase
 import (
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"backend-service/config"
 	"backend-service/internal/domain"
 
 	"github.com/google/uuid"
+	"github.com/joho/godotenv"
 )
 
 const uploadDir = "./uploads"
 
-func (uc *Usecase) UploadMedia2(file *multipart.FileHeader) (string, error) {
-	// Check file extension
-	if !isSupportedFileType(file.Filename) {
-		return "", domain.ErrUnsupportedFileType
-	}
-
-	// Create folder if not exists
-	if err := os.MkdirAll(uploadDir, os.ModePerm); err != nil {
-		return "", err
-	}
-
-	// Open source file
-	src, err := file.Open()
-	if err != nil {
-		return "", err
-	}
-	defer src.Close()
-
-	// Create destination file
-	dstPath := filepath.Join(uploadDir, file.Filename)
-	dst, err := os.Create(dstPath)
-	if err != nil {
-		return "", err
-	}
-	defer dst.Close()
-
-	if _, err := io.Copy(dst, src); err != nil {
-		return "", err
-	}
-
-	// Return URL path
-	url := fmt.Sprintf("/media/%s", file.Filename)
-	return url, nil
-}
-
 func (uc *Usecase) UploadMedia(file *multipart.FileHeader, topic string) (string, error) {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal(err)
+	}
+	conf := config.GetAppconfig()
+
 	if !isSupportedFileType(file.Filename) {
 		return "", domain.ErrUnsupportedFileType
 	}
@@ -84,7 +57,7 @@ func (uc *Usecase) UploadMedia(file *multipart.FileHeader, topic string) (string
 	}
 
 	// Return public URL
-	url := fmt.Sprintf("/media/%s/%s", topic, newFilename)
+	url := fmt.Sprintf("%s/media/%s/%s", conf.Host, topic, newFilename)
 	return url, nil
 }
 

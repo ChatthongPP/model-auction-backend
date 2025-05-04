@@ -17,6 +17,7 @@ var validate *validator.Validate
 func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	controller := &Controller{uc: usecase}
 
+	e.GET("/media/:topic/:filename", controller.GetMedia)
 	group := e.Group("/api")
 
 	// Public Routes
@@ -30,7 +31,6 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	authGroup.Use(middlewares.AuthMiddleware)
 
 	authGroup.POST("/media/upload", controller.UploadMedia)
-	authGroup.GET("/media/:topic/:filename", controller.GetMedia)
 
 	authGroup.GET("/me", controller.GetProfile)
 	authGroup.GET("/users/:id", controller.GetUserByID)
