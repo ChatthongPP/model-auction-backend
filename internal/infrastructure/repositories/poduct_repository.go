@@ -85,6 +85,9 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 	if filter.Status != "" {
 		query = query.Where("status = ?", filter.Status)
 	}
+	if filter.SellerID != 0 {
+		query = query.Where("seller_id = ?", filter.SellerID)
+	}
 
 	if filter.OrderBy != "" {
 		query = query.Order(filter.OrderBy + " " + filter.Order)

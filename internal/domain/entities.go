@@ -8,6 +8,7 @@ type FilterRequest struct {
 	Search       string `json:"search"`
 	CategoryID   int    `json:"category_id"`
 	Status       string `json:"status"`
+	SellerID     int    `json:"seller_id"`
 	UserID       int    `json:"user_id"`
 	ProductID    int    `json:"product_id"`
 }
