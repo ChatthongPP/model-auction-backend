@@ -24,7 +24,7 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 		Status:              product.Status,
 		CreatedAt:           product.CreatedAt,
 		UpdatedAt:           product.UpdatedAt,
-		// Image:           product.Image,
+		Image:               product.Image,
 	}
 
 	err := r.db.Create(dbProduct).Error
@@ -64,8 +64,7 @@ func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 		UpdatedAt:           dbProduct.UpdatedAt,
 		CategoryName:        dbProduct.Category.Name,
 		SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
-		// Image:            dbProduct.Image,
-
+		Image:               dbProduct.Image,
 	}
 
 	return product, nil
@@ -140,7 +139,7 @@ func (r *Repo) UpdateProduct(product *domain.Product) error {
 		AuctionEndTime:      product.AuctionEndTime,
 		Status:              product.Status,
 		UpdatedAt:           product.UpdatedAt,
-		// Image: product.Image,
+		Image:               product.Image,
 	}
 
 	if err := r.db.Model(&dbProduct).Where("id = ?", product.ID).Updates(&dbProduct).Error; err != nil {

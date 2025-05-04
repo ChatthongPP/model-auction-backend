@@ -21,5 +21,5 @@ type Product struct {
 	UpdatedAt           time.Time `json:"updated_at"`
 	CategoryName        string    `json:"category_name"`
 	SellerName          string    `json:"seller_name"`
-	// Image            string    `json:"image"`
+	Image               []string  `json:"image"`
 }
