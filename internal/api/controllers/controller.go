@@ -30,11 +30,16 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 	authGroup.Use(middlewares.AuthMiddleware)
 	authGroup.GET("/me", controller.GetProfile)
 	authGroup.GET("/users/:id", controller.GetUserByID)
+	authGroup.PUT("/users/:id", controller.UpdateUser)
+
 	authGroup.POST("/products", controller.CreateProduct)
 	authGroup.GET("/products/:id", controller.GetProductByID)
+
 	authGroup.POST("/bids", controller.CreateBid)
 	authGroup.GET("/bids", controller.GetBids)
+
 	authGroup.GET("/wallet-logs", controller.GetWalletLogs)
+	authGroup.POST("/wallet-logs", controller.CreateWalletLog)
 }
 
 // func currentTime() *time.Time {

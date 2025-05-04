@@ -43,3 +43,16 @@ func (uc *Usecase) Login(email, password string) (*domain.User, error) {
 func (uc *Usecase) GetUserByID(userID uint) (*domain.User, error) {
 	return uc.userRepo.GetUserByID(userID)
 }
+
+func (uc *Usecase) UpdateUser(user *domain.User) error {
+	existingUser, err := uc.userRepo.FindByEmail(user.Email)
+	if err == nil && existingUser != nil {
+		return domain.ErrEmailAlreadyExists
+	}
+
+	err = uc.userRepo.UpdateUser(user)
+	if err != nil {
+		return err
+	}
+	return nil
+}

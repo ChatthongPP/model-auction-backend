@@ -4,10 +4,12 @@ import (
 	"errors"
 	"net/http"
 	"strconv"
+	"time"
 
 	"backend-service/internal/domain"
 	"backend-service/pkg/utilities/auth"
 	"backend-service/pkg/utilities/responses"
+	"backend-service/pkg/utilities/validator"
 
 	"github.com/labstack/echo/v4"
 )
@@ -135,4 +137,44 @@ func (h *Controller) GetUserByID(ctx echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched user", user))
+}
+
+func (h *Controller) UpdateUser(c echo.Context) error {
+	idStr := c.QueryParam("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	var userReq UserRequest
+	if err := c.Bind(&userReq); err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	if err := validator.Validate(userReq); err != nil {
+		validationErrors := validator.FormatValidationErrors(err)
+		return c.JSON(http.StatusBadRequest, validationErrors)
+	}
+
+	user := &domain.User{
+		ID:          uint(id),
+		Email:       userReq.Email,
+		FirstName:   userReq.FirstName,
+		LastName:    userReq.LastName,
+		Gender:      userReq.Gender,
+		PhoneNumber: userReq.PhoneNumber,
+		Address:     userReq.Address,
+		CitizenID:   userReq.CitizenID,
+		RoleID:      userReq.RoleID,
+		UpdatedAt:   time.Now().UTC(),
+	}
+
+	if err := h.uc.UpdateUser(user); err != nil {
+		if err == domain.ErrEmailAlreadyExists {
+			return c.JSON(http.StatusConflict, responses.Error(http.StatusConflict, domain.ErrEmailAlreadyExists.Error()))
+		}
+		return c.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully updated user", user))
 }
