@@ -58,3 +58,23 @@ func (r *Repo) GetUserByID(userID uint) (*domain.User, error) {
 	res := domain.MapUserToDomain(user)
 	return &res, nil
 }
+
+func (r *Repo) UpdateUser(user *domain.User) error {
+	dbUser := models.User{
+		FirstName:   user.FirstName,
+		LastName:    user.LastName,
+		Email:       user.Email,
+		Gender:      user.Gender,
+		PhoneNumber: user.PhoneNumber,
+		Address:     user.Address,
+		CitizenID:   user.CitizenID,
+		RoleID:      user.RoleID,
+		UpdatedAt:   user.UpdatedAt,
+	}
+
+	if err := r.db.Model(&dbUser).Where("id = ?", user.ID).Updates(&dbUser).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
