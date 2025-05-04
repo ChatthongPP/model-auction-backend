@@ -57,7 +57,7 @@ func (uc *Usecase) UploadMedia(file *multipart.FileHeader, topic string) (string
 	}
 
 	// Return public URL
-	url := fmt.Sprintf("%s/media/%s/%s", conf.Host, topic, newFilename)
+	url := fmt.Sprintf("%s/media/%s/%s", conf.MediaHost, topic, newFilename)
 	return url, nil
 }
 
