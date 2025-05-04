@@ -18,11 +18,11 @@ func (uc *Usecase) CreateBid(bid *domain.Bid) error {
 	if timeRemaining <= time.Minute {
 		newEndTime := product.AuctionEndTime.Add(time.Minute)
 		product.AuctionEndTime = newEndTime
+	}
 
-		err = uc.productRepo.UpdateProduct(product)
-		if err != nil {
-			return err
-		}
+	err = uc.productRepo.UpdateProduct(product)
+	if err != nil {
+		return err
 	}
 
 	if err := uc.bidRepo.CreateBid(bid); err != nil {

@@ -62,6 +62,8 @@ func (r *Repo) GetBids(filter *domain.FilterRequest, offset int) ([]*domain.Bid,
 			BidderName:  bid.User.FirstName + " " + bid.User.LastName,
 			BidAmount:   bid.BidAmount,
 			BidTime:     bid.BidTime,
+			CreatedAt:   bid.CreatedAt,
+			UpdatedAt:   bid.UpdatedAt,
 		}
 	})
 
