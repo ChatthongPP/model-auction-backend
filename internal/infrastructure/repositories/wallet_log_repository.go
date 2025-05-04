@@ -33,6 +33,7 @@ func (r *Repo) GetWalletLogs(filter *domain.FilterRequest, offset int) ([]*domai
 			ID:          walletLog.ID,
 			Amount:      walletLog.Amount,
 			UserID:      walletLog.UserID,
+			UserName:    walletLog.User.FirstName + " " + walletLog.User.LastName,
 			Status:      walletLog.Status,
 			UpdatedByID: walletLog.UpdatedByID,
 			CreatedAt:   walletLog.CreatedAt,

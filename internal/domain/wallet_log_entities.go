@@ -6,6 +6,7 @@ type WalletLog struct {
 	ID          int       `json:"id"`
 	Amount      float64   `json:"amount"`
 	UserID      int       `json:"user_id"`
+	UserName    string    `json:"user_name"`
 	Status      string    `json:"status"`
 	UpdatedByID int       `json:"updated_by_id"`
 	CreatedAt   time.Time `json:"created_at"`

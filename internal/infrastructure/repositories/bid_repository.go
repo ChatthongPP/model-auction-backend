@@ -31,7 +31,9 @@ func (r *Repo) GetBids(filter *domain.FilterRequest, offset int) ([]*domain.Bid,
 	var bids []*models.BidModel
 	var totalCount int64
 
-	query := r.db.Model(&models.BidModel{})
+	query := r.db.Model(&models.BidModel{}).
+		Preload("User").
+		Preload("Product")
 
 	if filter.UserID != 0 {
 		query = query.Where("user_id = ?", filter.UserID)
@@ -53,11 +55,13 @@ func (r *Repo) GetBids(filter *domain.FilterRequest, offset int) ([]*domain.Bid,
 
 	domainBids := lop.Map(bids, func(bid *models.BidModel, i int) *domain.Bid {
 		return &domain.Bid{
-			ID:        bid.ID,
-			ProductID: bid.ProductID,
-			UserID:    bid.UserID,
-			BidAmount: bid.BidAmount,
-			BidTime:   bid.BidTime,
+			ID:          bid.ID,
+			ProductID:   bid.ProductID,
+			ProductName: bid.Product.Name,
+			UserID:      bid.UserID,
+			BidderName:  bid.User.FirstName + " " + bid.User.LastName,
+			BidAmount:   bid.BidAmount,
+			BidTime:     bid.BidTime,
 		}
 	})
 
