@@ -5,4 +5,5 @@ type ProductInterface interface {
 	GetProductByID(id int) (*Product, error)
 	GetProducts(productFilter *FilterRequest, offet int) ([]*Product, int, error)
 	UpdateProduct(product *Product) error
+	DeleteProduct(id int) error
 }

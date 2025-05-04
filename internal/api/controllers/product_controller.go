@@ -140,3 +140,17 @@ func (h *Controller) UpdateProduct(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully updated product", product))
 }
+
+func (h *Controller) DeleteProduct(c echo.Context) error {
+	idStr := c.QueryParam("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	if err := h.uc.DeleteProduct(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully deleted product", nil))
+}
