@@ -1,14 +1,33 @@
 package repositories
 
 import (
+	"encoding/json"
+	"fmt"
+	"time"
+
 	"backend-service/internal/domain"
 	"backend-service/internal/infrastructure/database/models"
+
+	"gorm.io/datatypes"
 
 	lop "github.com/samber/lo/parallel"
 )
 
-func (r *Repo) CreateProduct(product *domain.Product) error {
-	dbProduct := &models.ProductModel{
+func (r *Repo) CreateProduct(product *domain.Product) (err error) {
+	// log value product
+	fmt.Println("product", product)
+
+	imagesJSON := []byte("[]")
+	if product.Image != nil {
+		imagesJSON, err = json.Marshal(product.Image)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("imagesJSON", imagesJSON)
+	}
+
+	dbProduct := &models.Product{
 		Name:                product.Name,
 		Description:         product.Description,
 		CategoryID:          product.CategoryID,
@@ -22,13 +41,14 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 		AuctionStartTime:    product.AuctionStartTime,
 		AuctionEndTime:      product.AuctionEndTime,
 		Status:              product.Status,
-		CreatedAt:           product.CreatedAt,
-		UpdatedAt:           product.UpdatedAt,
-		Image:               product.Image,
+		Image:               imagesJSON,
+		CreatedAt:           time.Now(),
+		UpdatedAt:           time.Now(),
 	}
 
-	err := r.db.Create(dbProduct).Error
-	if err != nil {
+	fmt.Printf("dbProduct: %+v\n", dbProduct)
+
+	if err := r.db.Create(dbProduct).Error; err != nil {
 		return err
 	}
 
@@ -38,9 +58,15 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 }
 
 func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
-	dbProduct := &models.ProductModel{}
+	dbProduct := &models.Product{}
 
 	err := r.db.Preload("Category").Preload("User").First(dbProduct, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var images []string
+	err = json.Unmarshal([]byte(dbProduct.Image), &images)
 	if err != nil {
 		return nil, err
 	}
@@ -62,19 +88,19 @@ func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 		Status:              dbProduct.Status,
 		CreatedAt:           dbProduct.CreatedAt,
 		UpdatedAt:           dbProduct.UpdatedAt,
-		CategoryName:        dbProduct.Category.Name,
-		SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
-		Image:               dbProduct.Image,
+		// CategoryName:        dbProduct.Category.Name,
+		// SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
+		Image: images,
 	}
 
 	return product, nil
 }
 
 func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.Product, int, error) {
-	var products []*models.ProductModel
+	var products []*models.Product
 	var totalCount int64
 
-	query := r.db.Model(&models.ProductModel{})
+	query := r.db.Model(&models.Product{})
 
 	if filter.Search != "" {
 		query = query.Where("name ILIKE ?", "%"+filter.Search+"%")
@@ -102,7 +128,7 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 		return nil, 0, err
 	}
 
-	domainProducts := lop.Map(products, func(product *models.ProductModel, i int) *domain.Product {
+	domainProducts := lop.Map(products, func(product *models.Product, i int) *domain.Product {
 		return &domain.Product{
 			ID:                  product.ID,
 			Name:                product.Name,
@@ -127,7 +153,12 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 }
 
 func (r *Repo) UpdateProduct(product *domain.Product) error {
-	dbProduct := models.ProductModel{
+	imagesJSON, err := json.Marshal(product.Image)
+	if err != nil {
+		return err
+	}
+
+	dbProduct := models.Product{
 		Name:                product.Name,
 		Description:         product.Description,
 		CategoryID:          product.CategoryID,
@@ -142,7 +173,7 @@ func (r *Repo) UpdateProduct(product *domain.Product) error {
 		AuctionEndTime:      product.AuctionEndTime,
 		Status:              product.Status,
 		UpdatedAt:           product.UpdatedAt,
-		Image:               product.Image,
+		Image:               datatypes.JSON(imagesJSON),
 	}
 
 	if err := r.db.Model(&dbProduct).Where("id = ?", product.ID).Updates(&dbProduct).Error; err != nil {
@@ -153,7 +184,7 @@ func (r *Repo) UpdateProduct(product *domain.Product) error {
 }
 
 func (r *Repo) DeleteProduct(id int) error {
-	if err := r.db.Where("id = ?", id).Delete(&models.ProductModel{}).Error; err != nil {
+	if err := r.db.Where("id = ?", id).Delete(&models.Product{}).Error; err != nil {
 		return err
 	}
 
