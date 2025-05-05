@@ -47,12 +47,13 @@ values
   ('Bidder'),
   ('Seller'); 
 
+============================================================================================================
+
 -- public.users definition
 
 -- Drop table
 
 -- DROP TABLE public.users;
-============================================================================================================
 
 CREATE TABLE public.users (
 	id serial4 NOT NULL,
@@ -102,9 +103,9 @@ CREATE TABLE public.products (
 	auction_end_time timestamp NOT NULL,
 	status text NOT NULL,
 	image bytea NULL,
-	created_at timestamp DEFAULT now() NULL,
-	updated_at timestamp DEFAULT now() NULL,
-	deleted_at timestamp NULL,
+	created_at timestamptz DEFAULT now() NULL,
+	updated_at timestamptz DEFAULT now() NULL,
+	deleted_at timestamptz NULL,
 	CONSTRAINT products_pkey PRIMARY KEY (id)
 );
 

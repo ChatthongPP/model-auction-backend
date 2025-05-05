@@ -38,6 +38,8 @@ func InitController(e *echo.Echo, usecase *usecase.Usecase) {
 
 	authGroup.POST("/products", controller.CreateProduct)
 	authGroup.GET("/products/:id", controller.GetProductByID)
+	authGroup.PUT("/products/:id", controller.UpdateProduct)
+	authGroup.DELETE("/products/:id", controller.DeleteProduct)
 
 	authGroup.POST("/bids", controller.CreateBid)
 	authGroup.GET("/bids", controller.GetBids)

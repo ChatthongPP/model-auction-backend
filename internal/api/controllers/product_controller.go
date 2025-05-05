@@ -33,7 +33,8 @@ func (h *Controller) CreateProduct(ctx echo.Context) error {
 		CurrentBidPrice:     productReq.StartingBidPrice, // เริ่มต้น CurrentBidPrice เท่ากับ StartingBidPrice
 		MinimumBidIncrement: productReq.MinimumBidIncrement,
 		ShippingPrice:       productReq.ShippingPrice,
-		ServiceFee:          productReq.ServiceFee, //
+		ServiceFee:          productReq.ServiceFee,
+		Image:               productReq.Image,
 		AuctionStartTime:    productReq.AuctionStartTime,
 		AuctionEndTime:      productReq.AuctionEndTime,
 		Status:              productReq.Status,
@@ -79,6 +80,7 @@ func (h *Controller) GetProducts(ctx echo.Context) error {
 		Search:       filterReq.Search,
 		CategoryID:   filterReq.CategoryID,
 		Status:       filterReq.Status,
+		SellerID:     filterReq.SellerID,
 	}
 
 	products, totalCount, totalPages, err := h.uc.GetProducts(filter)
@@ -95,4 +97,61 @@ func (h *Controller) GetProducts(ctx echo.Context) error {
 	}
 
 	return ctx.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully fetched products", pagination))
+}
+
+func (h *Controller) UpdateProduct(c echo.Context) error {
+	idStr := c.QueryParam("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	var productReq ProductRequest
+	if err := c.Bind(&productReq); err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	if err := validator.Validate(&productReq); err != nil {
+		validationErrors := validator.FormatValidationErrors(err)
+		return c.JSON(http.StatusBadRequest, validationErrors)
+	}
+
+	product := &domain.Product{
+		ID:                  id,
+		Name:                productReq.Name,
+		Description:         productReq.Description,
+		CategoryID:          productReq.CategoryID,
+		SellerID:            productReq.SellerID,
+		ActualPrice:         productReq.ActualPrice,
+		StartingBidPrice:    productReq.StartingBidPrice,
+		CurrentBidPrice:     productReq.StartingBidPrice,
+		MinimumBidIncrement: productReq.MinimumBidIncrement,
+		ShippingPrice:       productReq.ShippingPrice,
+		ServiceFee:          productReq.ServiceFee,
+		Image:               productReq.Image,
+		AuctionStartTime:    productReq.AuctionStartTime,
+		AuctionEndTime:      productReq.AuctionEndTime,
+		Status:              productReq.Status,
+		UpdatedAt:           time.Now().UTC(),
+	}
+
+	if err := h.uc.UpdateProduct(product); err != nil {
+		return c.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully updated product", product))
+}
+
+func (h *Controller) DeleteProduct(c echo.Context) error {
+	idStr := c.QueryParam("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
+	}
+
+	if err := h.uc.DeleteProduct(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, responses.Error(http.StatusInternalServerError, err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, responses.Ok(http.StatusOK, "Successfully deleted product", nil))
 }

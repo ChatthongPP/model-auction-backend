@@ -24,7 +24,7 @@ func (r *Repo) CreateProduct(product *domain.Product) error {
 		Status:              product.Status,
 		CreatedAt:           product.CreatedAt,
 		UpdatedAt:           product.UpdatedAt,
-		// Image:           product.Image,
+		Image:               product.Image,
 	}
 
 	err := r.db.Create(dbProduct).Error
@@ -64,8 +64,7 @@ func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 		UpdatedAt:           dbProduct.UpdatedAt,
 		CategoryName:        dbProduct.Category.Name,
 		SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
-		// Image:            dbProduct.Image,
-
+		Image:               dbProduct.Image,
 	}
 
 	return product, nil
@@ -86,17 +85,19 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 	if filter.Status != "" {
 		query = query.Where("status = ?", filter.Status)
 	}
+	if filter.SellerID != 0 {
+		query = query.Where("seller_id = ?", filter.SellerID)
+	}
 
 	if filter.OrderBy != "" {
 		query = query.Order(filter.OrderBy + " " + filter.Order)
 	}
 
-	err := query.Limit(filter.Limit).Offset(offset).Find(&products).Error
-	if err != nil {
+	if err := query.Count(&totalCount).Error; err != nil {
 		return nil, 0, err
 	}
 
-	err = query.Count(&totalCount).Error
+	err := query.Limit(filter.Limit).Offset(offset).Find(&products).Error
 	if err != nil {
 		return nil, 0, err
 	}
@@ -141,10 +142,18 @@ func (r *Repo) UpdateProduct(product *domain.Product) error {
 		AuctionEndTime:      product.AuctionEndTime,
 		Status:              product.Status,
 		UpdatedAt:           product.UpdatedAt,
-		// Image: product.Image,
+		Image:               product.Image,
 	}
 
 	if err := r.db.Model(&dbProduct).Where("id = ?", product.ID).Updates(&dbProduct).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repo) DeleteProduct(id int) error {
+	if err := r.db.Where("id = ?", id).Delete(&models.ProductModel{}).Error; err != nil {
 		return err
 	}
 

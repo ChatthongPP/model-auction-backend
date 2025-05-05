@@ -30,3 +30,20 @@ func (uc *Usecase) GetProducts(filter *domain.FilterRequest) ([]*domain.Product,
 
 	return products, totalCount, totalPages, nil
 }
+
+func (uc *Usecase) UpdateProduct(product *domain.Product) error {
+	err := uc.productRepo.UpdateProduct(product)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (uc *Usecase) DeleteProduct(id int) error {
+	err := uc.productRepo.DeleteProduct(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
