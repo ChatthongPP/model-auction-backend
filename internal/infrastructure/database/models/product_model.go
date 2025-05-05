@@ -3,10 +3,11 @@ package models
 import (
 	"time"
 
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
-type ProductModel struct {
+type Product struct {
 	ID                  int            `gorm:"column:id;primary_key" json:"id"`
 	Name                string         `gorm:"column:name" json:"name"`
 	Description         string         `gorm:"column:description" json:"description"`
@@ -21,15 +22,15 @@ type ProductModel struct {
 	AuctionStartTime    time.Time      `gorm:"column:auction_start_time" json:"auction_start_time"`
 	AuctionEndTime      time.Time      `gorm:"column:auction_end_time" json:"auction_end_time"`
 	Status              string         `gorm:"column:status" json:"status"`
-	Image               []string       `gorm:"column:image" json:"image"`
+	Image               datatypes.JSON `gorm:"column:image;type:jsonb" json:"image"`
 	CreatedAt           time.Time      `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt           time.Time      `gorm:"column:updated_at" json:"updated_at"`
-	DeletedAt           gorm.DeletedAt `gorm:"column:deleted_at" json:"deleted_at"`
+	DeletedAt           gorm.DeletedAt `gorm:"index" json:"-"`
 
-	Category CategoryModel `gorm:"foreignKey:CategoryID"`
-	User     User          `gorm:"foreignKey:SellerID"`
+	Category CategoryModel `gorm:"foreignKey:CategoryID;references:ID"`
+	User     User          `gorm:"foreignKey:SellerID;references:ID"`
 }
 
-func (*ProductModel) TableName() string {
+func (*Product) TableName() string {
 	return "products"
 }
