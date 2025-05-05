@@ -100,7 +100,7 @@ func (h *Controller) GetProducts(ctx echo.Context) error {
 }
 
 func (h *Controller) UpdateProduct(c echo.Context) error {
-	idStr := c.QueryParam("id")
+	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
@@ -143,7 +143,7 @@ func (h *Controller) UpdateProduct(c echo.Context) error {
 }
 
 func (h *Controller) DeleteProduct(c echo.Context) error {
-	idStr := c.QueryParam("id")
+	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))

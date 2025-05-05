@@ -88,9 +88,9 @@ func (r *Repo) GetProductByID(id int) (*domain.Product, error) {
 		Status:              dbProduct.Status,
 		CreatedAt:           dbProduct.CreatedAt,
 		UpdatedAt:           dbProduct.UpdatedAt,
-		// CategoryName:        dbProduct.Category.Name,
-		// SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
-		Image: images,
+		CategoryName:        dbProduct.Category.Name,
+		SellerName:          dbProduct.User.FirstName + " " + dbProduct.User.LastName,
+		Image:               images,
 	}
 
 	return product, nil
@@ -129,6 +129,11 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 	}
 
 	domainProducts := lop.Map(products, func(product *models.Product, i int) *domain.Product {
+		var images []string
+		if err := json.Unmarshal(product.Image, &images); err != nil {
+			images = []string{}
+		}
+
 		return &domain.Product{
 			ID:                  product.ID,
 			Name:                product.Name,
@@ -144,6 +149,9 @@ func (r *Repo) GetProducts(filter *domain.FilterRequest, offset int) ([]*domain.
 			AuctionStartTime:    product.AuctionStartTime,
 			AuctionEndTime:      product.AuctionEndTime,
 			Status:              product.Status,
+			Image:               images,
+			CategoryName:        product.Category.Name,
+			SellerName:          product.User.FirstName + " " + product.User.LastName,
 			CreatedAt:           product.CreatedAt,
 			UpdatedAt:           product.UpdatedAt,
 		}

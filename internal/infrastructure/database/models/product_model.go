@@ -27,8 +27,8 @@ type Product struct {
 	UpdatedAt           time.Time      `gorm:"column:updated_at" json:"updated_at"`
 	DeletedAt           gorm.DeletedAt `gorm:"index" json:"-"`
 
-	// Category CategoryModel `gorm:"-;foreignKey:CategoryID"`
-	// User     User          `gorm:"-;foreignKey:SellerID"`
+	Category CategoryModel `gorm:"foreignKey:CategoryID;references:ID"`
+	User     User          `gorm:"foreignKey:SellerID;references:ID"`
 }
 
 func (*Product) TableName() string {

@@ -12,7 +12,7 @@ type WalletLogModel struct {
 	UpdatedAt   time.Time  `gorm:"column:updated_at" json:"updated_at"`
 	DeletedAt   *time.Time `gorm:"column:deleted_at" json:"deleted_at"`
 
-	User User `gorm:"foreignKey:UserID"`
+	User User `gorm:"foreignKey:UserID;references:ID"`
 }
 
 func (*WalletLogModel) TableName() string {
