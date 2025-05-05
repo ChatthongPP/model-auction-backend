@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"strconv"
 	"time"
 
 	"backend-service/internal/domain"
@@ -13,11 +12,6 @@ import (
 )
 
 func (h *Controller) CreateBid(ctx echo.Context) error {
-	productID, err := strconv.Atoi(ctx.QueryParam("productId"))
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, "Invalid Product ID"))
-	}
-
 	var bidReq BidRequest
 	if err := ctx.Bind(&bidReq); err != nil {
 		return ctx.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, "Invalid request payload"))
@@ -29,7 +23,7 @@ func (h *Controller) CreateBid(ctx echo.Context) error {
 	}
 
 	bid := &domain.Bid{
-		ProductID: productID,
+		ProductID: bidReq.ProductID,
 		UserID:    bidReq.UserID,
 		BidAmount: bidReq.BidAmount,
 		BidTime:   time.Now().UTC(),
