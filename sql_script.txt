@@ -102,7 +102,7 @@ CREATE TABLE public.products (
 	auction_start_time timestamp NOT NULL,
 	auction_end_time timestamp NOT NULL,
 	status text NOT NULL,
-	image bytea NULL,
+	image jsonb NULL,
 	created_at timestamptz DEFAULT now() NULL,
 	updated_at timestamptz DEFAULT now() NULL,
 	deleted_at timestamptz NULL,
@@ -113,6 +113,12 @@ CREATE TABLE public.products (
 
 ALTER TABLE public.products OWNER TO postgres;
 GRANT ALL ON TABLE public.products TO postgres;
+
+
+-- public.products foreign keys
+
+ALTER TABLE public.products ADD CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES public.categories(id);
+ALTER TABLE public.products ADD CONSTRAINT fk_seller_id FOREIGN KEY (seller_id) REFERENCES public.users(id);
 
 ==========================================================================================================
 
