@@ -140,7 +140,7 @@ func (h *Controller) GetUserByID(ctx echo.Context) error {
 }
 
 func (h *Controller) UpdateUser(c echo.Context) error {
-	idStr := c.QueryParam("id")
+	idStr := c.Param("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, responses.Error(http.StatusBadRequest, err.Error()))
