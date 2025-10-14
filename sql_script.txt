@@ -13,11 +13,15 @@ CREATE TABLE public.categories (
 	deleted_at timestamptz NULL,
 	CONSTRAINT categories_pkey PRIMARY KEY (id)
 );
-
 -- Permissions
 
 ALTER TABLE public.categories OWNER TO postgres;
 GRANT ALL ON TABLE public.categories TO postgres;
+--------------------------------------------------------------------------------------------------------------
+INSERT INTO public.categories ("name", image) VALUES
+('Model', 'https://inwfile.com/s-fe/jojmpl.jpg'),		
+('Art toy', 'https://static.amarintv.com/images/upload/editor/source/Deaw2024/30012024/27/704686.jpg'),
+('Figure', 'https://inwfile.com/s-cj/o3907l.jpg');
 ==============================================================================================================
 
 -- public.roles definition
